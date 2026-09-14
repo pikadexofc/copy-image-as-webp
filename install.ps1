@@ -8,24 +8,34 @@ Write-Host "======================================================" -ForegroundC
 Write-Host ""
 
 $targetDir = "$env:LOCALAPPDATA\copy-image-as-webp"
-$zipUrl = "https://github.com/pikadexofc/copy-image-as-webp/releases/download/v1.0.2/copy-image-as-webp-v1.0.2.zip"
+$zipUrl = "https://github.com/pikadexofc/copy-image-as-webp/archive/refs/heads/main.zip"
 $tempZip = "$env:TEMP\copy-image-as-webp.zip"
+$tempExtract = "$env:TEMP\copy-image-as-webp-extract"
 
 Write-Host "[1/3] Downloading extension from GitHub..." -ForegroundColor Yellow
 Invoke-WebRequest -Uri $zipUrl -OutFile $tempZip -UseBasicParsing
 
-Write-Host "[2/3] Extracting files to: $targetDir" -ForegroundColor Yellow
+Write-Host "[2/3] Extracting files to: $($targetDir)" -ForegroundColor Yellow
+if (Test-Path $tempExtract) { 
+    Remove-Item $tempExtract -Recurse -Force 
+}
+Expand-Archive -Path $tempZip -DestinationPath $tempExtract -Force
+
 if (-not (Test-Path $targetDir)) { 
     New-Item -ItemType Directory -Path $targetDir -Force | Out-Null 
 }
-Expand-Archive -Path $tempZip -DestinationPath $targetDir -Force
+
+$innerDir = (Get-ChildItem -Path $tempExtract -Directory | Select-Object -First 1).FullName
+Copy-Item -Path "$innerDir\*" -Destination $targetDir -Recurse -Force
+
 Remove-Item $tempZip -Force -ErrorAction SilentlyContinue
+Remove-Item $tempExtract -Recurse -Force -ErrorAction SilentlyContinue
 
 Write-Host "[3/3] Copying folder path to your clipboard..." -ForegroundColor Yellow
 Set-Clipboard -Value $targetDir
 
 Write-Host ""
-Write-Host "[+] Installed cleanly to: $targetDir" -ForegroundColor Green
+Write-Host "[+] Installed cleanly to: $($targetDir)" -ForegroundColor Green
 Write-Host "[+] Folder path copied to your CLIPBOARD!" -ForegroundColor Green
 Write-Host ""
 Write-Host "======================================================" -ForegroundColor Cyan
