@@ -77,7 +77,9 @@ It is the year 2026. Humanity is deploying AI models to Mars, but when a web des
 
 If you find this tool useful, you can support future development:
 
-- **[Support on Support Kori](https://www.supportkori.com/mdzobaedislamshanto)**
+<a href="https://www.supportkori.com/mdzobaedislamshanto" target="_blank" rel="noopener noreferrer">
+  <img src="https://img.shields.io/badge/☕_Fund_the_development-Support_Kori-9333ea?style=for-the-badge&logoColor=white" alt="Fund the development" />
+</a>
 
 ---
 
