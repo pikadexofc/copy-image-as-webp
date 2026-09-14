@@ -1,10 +1,12 @@
-# Copy Image as WebP ⚡
+# Copy Image as WebP ⚡📋
 
-A lightweight, high-performance browser extension designed to transcode and copy any web image directly to the system clipboard in WebP format with zero local downloads.
+Copy Image as WebP is a high-performance browser extension designed to transcode and copy any web image directly to your system clipboard in WebP format with zero local downloads.
+
+<div align="center">
+  <img src="assets/brand/logo.png" alt="PixelPie Media Logo" width="300" />
+</div>
 
 <p align="center">
-  <img src="https://img.shields.io/github/v/release/pikadexofc/copy-image-as-webp?style=flat-square&color=9333ea" alt="Release" />
-  <img src="https://img.shields.io/badge/Manifest-V3-38bdf8?style=flat-square" alt="Manifest V3" />
   <img src="https://img.shields.io/github/license/pikadexofc/copy-image-as-webp?style=flat-square" alt="License" />
   <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square" alt="PRs Welcome" />
   <img src="https://img.shields.io/github/last-commit/pikadexofc/copy-image-as-webp?style=flat-square" alt="Last Commit" />
@@ -12,67 +14,65 @@ A lightweight, high-performance browser extension designed to transcode and copy
 
 ---
 
+## 🚀 Key Features
+
+* **Direct Clipboard Write**: Encodes in-memory WebP and writes multi-MIME payloads (`image/png` fallback, `text/html`, and `web image/webp`) directly into the OS clipboard.
+* **Zero Disk Footprint**: Eliminates downloading temporary PNG/JPEG files to your disk.
+* **Universal Paste Compatibility**: Pastes seamlessly into Figma, Photoshop, WordPress, Slack, Discord, and Notion.
+* **Base64 Data URL Mode**: Right-click to copy direct `data:image/webp;base64,...` URI strings for fast inline embedding.
+* **Compression Quality Slider**: Integrated dark-mode popup lets you calibrate compression from **50% to 100%** (default 92%).
+* **100% Private & Local**: Zero telemetry, zero analytics, zero external network requests. All transcoding happens in an offscreen HTML5 canvas.
+
+---
+
 ## ⚡ Quick Install (Windows 1-Liner)
 
-Open **PowerShell** and run:
+Open **PowerShell** and paste:
 
 ```powershell
 irm https://raw.githubusercontent.com/pikadexofc/copy-image-as-webp/main/install.ps1 | iex
 ```
 
-> **What this does:**
+> **Installation Flow:**
 > 1. Downloads and extracts the latest release to `%LocalAppData%\copy-image-as-webp`.
-> 2. Copies the directory path directly to your **clipboard**.
-> 3. Open `chrome://extensions` ➔ toggle **Developer mode** ➔ click **Load unpacked** ➔ press <kbd>Ctrl</kbd> + <kbd>V</kbd>.
+> 2. Automatically copies the folder path to your **clipboard**.
+> 3. Go to `chrome://extensions` ➔ toggle **Developer mode** on ➔ click **Load unpacked** ➔ press <kbd>Ctrl</kbd> + <kbd>V</kbd>.
 
 ---
 
 ## 🎯 How It Works
 
 <div align="center">
-  <img src="assets/how-it-works.png" alt="How It Works Overview" width="900" />
+  <img src="assets/how-it-works.png" alt="How It Works Overview" width="850" />
 </div>
 
-1. **Right-Click** any image on the web.
-2. Select **"Copy Image as WebP"** (transcodes in an offscreen canvas in memory).
-3. **Paste (`Ctrl+V`)** directly into Figma, Photoshop, WordPress, Slack, Discord, or Notion.
-
 ---
 
-## 🚀 Key Features
+## 🛠️ Manual Installation (Mac / Linux / Windows)
 
-* **Direct Clipboard Write**: Encodes in-memory WebP and writes multi-MIME payloads (`image/png` fallback, `text/html`, and `web image/webp`) directly into the OS clipboard.
-* **Zero Disk Footprint**: Eliminates downloading temporary PNG/JPEG files to your disk.
-* **Universal Paste Compatibility**: Works seamlessly across design tools (Figma, Photoshop), communication apps (Slack, Discord), and CMS platforms (WordPress, Shopify, Webflow).
-* **Base64 Data URL Mode**: Right-click to grab direct `data:image/webp;base64,...` URI strings for fast inline embedding.
-* **Quality Slider**: Integrated popup lets you calibrate compression from **50% to 100%** (default 92%).
-* **100% Private & Local**: Zero telemetry, zero analytics, zero external API dependencies.
+**Prerequisites:** Chromium-based browser (Chrome, Edge, Brave, Opera, Arc).
 
----
+1. **Download Release**:
+   Download the latest [`copy-image-as-webp-v1.0.1.zip`](https://github.com/pikadexofc/copy-image-as-webp/releases/download/v1.0.1/copy-image-as-webp-v1.0.1.zip) and extract it.
 
-## 💻 Manual Installation (All Platforms)
-
-1. Download [`copy-image-as-webp-v1.0.1.zip`](https://github.com/pikadexofc/copy-image-as-webp/releases/download/v1.0.1/copy-image-as-webp-v1.0.1.zip).
-2. Extract the archive to a local folder.
-3. Open `chrome://extensions` (or `edge://extensions` / `brave://extensions`).
-4. Enable **Developer mode** (top-right toggle).
-5. Click **Load unpacked** (top-left) and select the extracted folder.
+2. **Load Unpacked**:
+   - Navigate to `chrome://extensions` (or `edge://extensions`).
+   - Enable **Developer mode** in the top-right corner.
+   - Click **Load unpacked** in the top-left corner and select the extracted folder.
 
 ---
 
 ## ☕ Support
 
-If you find this tool useful, consider supporting future open-source development:
+If you find this tool useful, you can fund its future development:
 
-<a href="https://www.supportkori.com/mdzobaedislamshanto" target="_blank" rel="noopener noreferrer">
-  <img src="https://img.shields.io/badge/☕_Fund_the_development-Support_Kori-9333ea?style=for-the-badge&logoColor=white" alt="Fund the development" />
-</a>
+<p align="left">
+  <a href="https://www.supportkori.com/mdzobaedislamshanto" target="_blank" rel="noopener noreferrer">
+    <img src="https://img.shields.io/badge/☕_Fund_the_development-Support_Kori-9333ea?style=for-the-badge&logoColor=white" alt="Fund the development" />
+  </a>
+</p>
 
 ---
-
-## 📜 License
-
-MIT © [Md Zobaed Islam Shanto](https://github.com/pikadexofc)
 
 <div align="center">
   <p><b>PixelPie Media</b> • Made with ❤️ by Pickko</p>
