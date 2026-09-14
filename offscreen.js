@@ -73,12 +73,10 @@ async function handleConvertImage(data) {
           const htmlBlob = new Blob([`<img src="${webpDataUrl}" width="${width}" height="${height}">`], {
             type: 'text/html'
           });
-          const textBlob = new Blob([webpDataUrl], { type: 'text/plain' });
 
           const clipboardData = {
             'image/png': pngBlob,
             'text/html': htmlBlob,
-            'text/plain': textBlob,
             'web image/webp': webpBlob
           };
 
