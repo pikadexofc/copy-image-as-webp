@@ -1,0 +1,10 @@
+# OS generated files
+desktop.ini
+Thumbs.db
+ehthumbs.db
+.DS_Store
+
+# Temporary files
+*.tmp
+*.crx
+.tmp_chrome_test/

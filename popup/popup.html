@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Copy Image as WebP</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <header class="header">
+      <div class="logo-group">
+        <div class="logo-icon">⚡</div>
+        <div class="header-titles">
+          <h1 class="title">Copy as WebP</h1>
+          <span class="badge">Active</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="section">
+        <div class="section-header">
+          <label for="quality-range" class="section-title">WebP Quality</label>
+          <span id="quality-val" class="quality-display">92%</span>
+        </div>
+        <input type="range" id="quality-range" min="50" max="100" value="92" step="1" class="slider">
+        <div class="presets">
+          <button type="button" class="preset-btn" data-quality="75">Compact (75%)</button>
+          <button type="button" class="preset-btn active" data-quality="92">Balanced (92%)</button>
+          <button type="button" class="preset-btn" data-quality="100">Lossless/Max (100%)</button>
+        </div>
+      </section>
+
+      <section class="section">
+        <label class="toggle-row">
+          <span class="toggle-label">Show copy toast notifications</span>
+          <input type="checkbox" id="toggle-toast" checked class="toggle-input">
+          <span class="toggle-slider"></span>
+        </label>
+      </section>
+
+      <section class="info-card">
+        <h3 class="info-title">How to use</h3>
+        <p class="info-desc">Right-click any image on any webpage:</p>
+        <ul class="feature-list">
+          <li><strong>Copy Image as WebP</strong>: Copies optimized WebP with multi-app clipboard support.</li>
+          <li><strong>Copy Image as WebP Data URL</strong>: Copies base64 string directly for coding & design.</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span class="status-indicator">Ready to copy</span>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
