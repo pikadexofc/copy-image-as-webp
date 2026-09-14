@@ -392,6 +392,19 @@ body {
   color: var(--text-muted);
 }
 
+.footer-right {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.footer-brand-logo {
+  width: 13px;
+  height: 13px;
+  object-fit: contain;
+  display: block;
+}
+
 .footer-right .brand-text {
   font-weight: 600;
   color: var(--accent-violet);

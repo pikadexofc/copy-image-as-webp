@@ -1,6 +1,9 @@
 <div align="center">
+  <a href="https://github.com/pikadexofc">
+    <img src="assets/brand/logo.png" alt="PixelPie Media Logo" width="240" />
+  </a>
+  <br /><br />
   <img src="assets/brand/product_logo.png" alt="Copy Image as WebP Logo" width="96" />
-  <p><strong>PixelPie Media</strong></p>
   <h1>Copy Image as WebP</h1>
   <p><strong>A precision browser utility for designers and developers that converts web images locally to WebP and places them on the clipboard without requiring a manual download.</strong></p>
 
@@ -38,7 +41,7 @@
 
 * **Zero Disk Footprint**: Eliminates downloading temporary PNG/JPEG files to your hard drive just to convert them. Transcoding happens 100% in-memory via an offscreen HTML5 canvas.
 * **Broad Clipboard Compatibility**: Attaches the transcoded WebP along with compatibility representations (`image/png` and `text/html`) so that applications that do not consume WebP directly can still accept the paste seamlessly.
-* **100% Private & Local**: Zero telemetry, zero analytics, and zero external network requests. All operations execute strictly within your local browser sandbox.
+* **100% Private & Local**: Zero telemetry, zero analytics, and no third-party image processing services. Images are retrieved directly from their existing source URL and transcoded entirely within your local browser sandbox.
 
 ---
 
@@ -86,7 +89,7 @@ irm https://raw.githubusercontent.com/pikadexofc/copy-image-as-webp/main/install
 
 ## 🔒 Privacy & Security
 
-* **No Remote Servers**: No image data, browsing activity, or URLs ever leave your local machine.
+* **Local In-Browser Processing**: Images are fetched directly from their existing source URL and processed locally on your machine, with no third-party image processing servers or external cloud uploads.
 * **No Telemetry**: Zero tracking scripts, analytics, or background telemetry.
 * **Least Privilege**: Manifest permissions are strictly limited to what is required for context menu registration, offscreen canvas processing, and focused-document clipboard writing.
 
@@ -107,7 +110,7 @@ irm https://raw.githubusercontent.com/pikadexofc/copy-image-as-webp/main/install
 
 ## ⚠️ Known Limitations
 
-* **Operating System Clipboard Architecture**: Windows and macOS system clipboards do not provide a native `CF_WEBP` OS-level clipboard format. Chromium's Async Clipboard API does not support writing standard OS `image/webp` directly (`ClipboardItem.supports('image/webp')` returns `false`). As a result, desktop applications reading the OS clipboard consume the PNG compatibility representation.
+* **Operating System Clipboard Architecture**: The Windows system clipboard does not provide a native `CF_WEBP` OS-level clipboard format. Chromium's Async Clipboard API does not support writing standard OS `image/webp` directly (`ClipboardItem.supports('image/webp')` returns `false`). As a result, desktop applications reading the OS clipboard consume the PNG compatibility representation.
 * **Restricted Browser Pages**: In compliance with Chromium security policy, extension content scripts cannot be executed on internal pages (`chrome://`, `edge://`) or on the Chrome Web Store gallery.
 
 ---
@@ -148,6 +151,9 @@ This project is licensed under the [MIT License](LICENSE).
 ---
 
 <div align="center">
-  <p><b>Copy Image as WebP</b> is built and maintained by <b>PixelPie Media</b>.</p>
+  <a href="https://github.com/pikadexofc">
+    <img src="assets/brand/logo.png" alt="PixelPie Media Logo" width="160" />
+  </a>
+  <p style="margin-top: 8px;"><b>Copy Image as WebP</b> is built and maintained by <b>PixelPie Media</b>.</p>
   <p><i>Precision, minimal, and high-performance software utilities.</i></p>
 </div>
