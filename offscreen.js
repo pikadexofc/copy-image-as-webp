@@ -1,22 +1,48 @@
 // offscreen.js - Offscreen document for WebP image processing
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.target !== 'offscreen' || message.action !== 'convert-image') {
+  if (message.target !== 'offscreen') {
     return false;
   }
 
-  handleConvertImage(message)
-    .then((result) => sendResponse(result))
-    .catch((err) => {
-      console.error('Offscreen conversion error:', err);
-      sendResponse({ success: false, error: err.message || 'Image processing failed' });
-    });
+  if (message.action === 'convert-image') {
+    handleConvertImage(message)
+      .then((result) => sendResponse(result))
+      .catch((err) => {
+        console.warn('Offscreen conversion warning:', err);
+        sendResponse({ success: false, error: err.message || 'Image processing failed' });
+      });
+    return true; // Keep channel open for async response
+  }
 
-  return true; // Keep channel open for async response
+  if (message.action === 'copy-text') {
+    const success = copyTextViaExecCommand(message.text || '');
+    sendResponse({ success });
+    return false;
+  }
+
+  return false;
 });
 
+function copyTextViaExecCommand(text) {
+  try {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.left = '-9999px';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    const ok = document.execCommand('copy');
+    textarea.remove();
+    return ok;
+  } catch {
+    return false;
+  }
+}
+
 async function handleConvertImage(data) {
-  const { srcUrl, quality = 0.92, copyToClipboard = true, isDataUrl = false } = data;
+  const { srcUrl, quality = 0.92 } = data;
 
   // 1. Fetch image source
   let blob;
@@ -62,40 +88,13 @@ async function handleConvertImage(data) {
     const base64Data = webpDataUrl.split(',')[1] || '';
     const size = Math.round((base64Data.length * 3) / 4);
 
-    let clipboardWritten = false;
-    if (copyToClipboard) {
-      try {
-        if (isDataUrl) {
-          await navigator.clipboard.writeText(webpDataUrl);
-        } else {
-          const webpBlob = dataURItoBlob(webpDataUrl);
-          const pngBlob = dataURItoBlob(pngDataUrl);
-          const htmlBlob = new Blob([`<img src="${webpDataUrl}" width="${width}" height="${height}">`], {
-            type: 'text/html'
-          });
-
-          const clipboardData = {
-            'image/png': pngBlob,
-            'text/html': htmlBlob,
-            'web image/webp': webpBlob
-          };
-
-          await navigator.clipboard.write([new ClipboardItem(clipboardData)]);
-        }
-        clipboardWritten = true;
-      } catch (clipErr) {
-        console.warn('Offscreen direct clipboard write failed, will attempt in-tab fallback:', clipErr);
-      }
-    }
-
     return {
       success: true,
       webpDataUrl,
       pngDataUrl,
       size,
       width,
-      height,
-      clipboardWritten
+      height
     };
   } finally {
     // Immediately release backing store memory and GPU textures

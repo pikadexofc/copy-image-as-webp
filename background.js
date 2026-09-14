@@ -63,6 +63,48 @@ function scheduleOffscreenClose(delayMs = 15000) {
   }, delayMs);
 }
 
+function isRestrictedUrl(url) {
+  if (!url) return false;
+  return (
+    url.startsWith('chrome://') ||
+    url.startsWith('chrome-extension://') ||
+    url.startsWith('edge://') ||
+    url.startsWith('devtools://') ||
+    url.startsWith('about:') ||
+    url.startsWith('view-source:') ||
+    url.startsWith('https://chromewebstore.google.com') ||
+    url.startsWith('https://chrome.google.com/webstore')
+  );
+}
+
+function notifyRestrictedPage(tabId) {
+  try {
+    chrome.action.setBadgeText({ text: '!', tabId });
+    chrome.action.setBadgeBackgroundColor({ color: '#f59e0b', tabId });
+    chrome.action.setTitle({
+      title: 'Copy Image as WebP: Chrome blocks extension scripting on the Web Store and internal browser pages.',
+      tabId
+    });
+    setTimeout(() => {
+      try {
+        chrome.action.setBadgeText({ text: '', tabId });
+      } catch {}
+    }, 4500);
+  } catch {}
+}
+
+function notifySuccessBadge(tabId, text = '✓') {
+  try {
+    chrome.action.setBadgeText({ text, tabId });
+    chrome.action.setBadgeBackgroundColor({ color: '#10b981', tabId });
+    setTimeout(() => {
+      try {
+        chrome.action.setBadgeText({ text: '', tabId });
+      } catch {}
+    }, 2500);
+  } catch {}
+}
+
 // Handle context menu clicks
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   if (![CONTEXT_MENU_IDS.COPY_WEBP, CONTEXT_MENU_IDS.COPY_DATA_URL].includes(info.menuItemId)) {
@@ -75,6 +117,9 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     return;
   }
 
+  const isDataUrlMode = info.menuItemId === CONTEXT_MENU_IDS.COPY_DATA_URL;
+  const isRestricted = !tab?.id || isRestrictedUrl(tab?.url);
+
   try {
     const settings = await chrome.storage.local.get({
       quality: 0.92,
@@ -85,7 +130,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 
     // Check if image is a page-scoped blob URL
     let payloadUrl = srcUrl;
-    if (srcUrl.startsWith('blob:') && tab?.id) {
+    if (srcUrl.startsWith('blob:') && tab?.id && !isRestricted) {
       try {
         const [result] = await chrome.scripting.executeScript({
           target: { tabId: tab.id },
@@ -104,20 +149,16 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
           payloadUrl = result.result;
         }
       } catch (err) {
-        console.warn('Page blob extraction failed, falling back to direct URL', err);
+        console.warn('Page blob extraction fallback to direct URL:', err);
       }
     }
 
-    const isDataUrlMode = info.menuItemId === CONTEXT_MENU_IDS.COPY_DATA_URL;
-
-    // Convert image to WebP & PNG base64 in offscreen document and write directly to clipboard
+    // Convert image to WebP & PNG in offscreen document
     const response = await chrome.runtime.sendMessage({
       target: 'offscreen',
       action: 'convert-image',
       srcUrl: payloadUrl,
-      quality: settings.quality,
-      copyToClipboard: true,
-      isDataUrl: isDataUrlMode
+      quality: settings.quality
     });
 
     if (!response?.success) {
@@ -125,63 +166,91 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       return;
     }
 
-    // If offscreen couldn't write (unsupported environment fallback), write inside active tab
-    if (!response.clipboardWritten && tab?.id) {
-      try {
-        await chrome.scripting.executeScript({
-          target: { tabId: tab.id },
-          func: async (webpDataUrl, pngDataUrl, isDataUrl, width, height) => {
-            window.focus();
-            function b64toBlob(dataURI) {
-              const parts = dataURI.split(',');
-              const byteString = atob(parts[1]);
-              const mimeString = parts[0].split(':')[1].split(';')[0];
-              const ab = new ArrayBuffer(byteString.length);
-              const ia = new Uint8Array(ab);
-              for (let i = 0; i < byteString.length; i++) {
-                ia[i] = byteString.charCodeAt(i);
-              }
-              return new Blob([ab], { type: mimeString });
-            }
-
-            if (isDataUrl) {
-              await navigator.clipboard.writeText(webpDataUrl);
-            } else {
-              const webpBlob = b64toBlob(webpDataUrl);
-              const pngBlob = b64toBlob(pngDataUrl);
-              const htmlBlob = new Blob([`<img src="${webpDataUrl}" width="${width}" height="${height}">`], {
-                type: 'text/html'
-              });
-
-              const clipboardData = {
-                'image/png': pngBlob,
-                'text/html': htmlBlob,
-                'web image/webp': webpBlob
-              };
-
-              await navigator.clipboard.write([new ClipboardItem(clipboardData)]);
-            }
-          },
-          args: [
-            response.webpDataUrl,
-            response.pngDataUrl,
-            isDataUrlMode,
-            response.width,
-            response.height
-          ]
+    // Handle restricted pages where in-tab content scripting is prohibited by Chrome
+    if (isRestricted) {
+      if (isDataUrlMode) {
+        // Data URL text can be written via offscreen execCommand fallback
+        await chrome.runtime.sendMessage({
+          target: 'offscreen',
+          action: 'copy-text',
+          text: response.webpDataUrl
         });
-      } catch (fallbackErr) {
-        console.warn('In-tab clipboard write fallback failed:', fallbackErr);
+        notifySuccessBadge(tab?.id, '✓');
+      } else {
+        // Binary image copy requires document focus which Chrome blocks on restricted tabs
+        notifyRestrictedPage(tab?.id);
+      }
+      return;
+    }
+
+    // On standard web pages, perform clipboard write inside focused tab
+    try {
+      await chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        func: async (webpDataUrl, pngDataUrl, isDataUrl, width, height) => {
+          window.focus();
+          function b64toBlob(dataURI) {
+            const parts = dataURI.split(',');
+            const byteString = atob(parts[1]);
+            const mimeString = parts[0].split(':')[1].split(';')[0];
+            const ab = new ArrayBuffer(byteString.length);
+            const ia = new Uint8Array(ab);
+            for (let i = 0; i < byteString.length; i++) {
+              ia[i] = byteString.charCodeAt(i);
+            }
+            return new Blob([ab], { type: mimeString });
+          }
+
+          if (isDataUrl) {
+            await navigator.clipboard.writeText(webpDataUrl);
+          } else {
+            const webpBlob = b64toBlob(webpDataUrl);
+            const pngBlob = b64toBlob(pngDataUrl);
+            const htmlBlob = new Blob([`<img src="${webpDataUrl}" width="${width}" height="${height}">`], {
+              type: 'text/html'
+            });
+
+            // image/png is supported everywhere; web image/webp provides raw WebP
+            // Omit text/plain so apps paste the image rather than a massive base64 dump
+            const clipboardData = {
+              'image/png': pngBlob,
+              'text/html': htmlBlob,
+              'web image/webp': webpBlob
+            };
+
+            await navigator.clipboard.write([new ClipboardItem(clipboardData)]);
+          }
+        },
+        args: [
+          response.webpDataUrl,
+          response.pngDataUrl,
+          isDataUrlMode,
+          response.width,
+          response.height
+        ]
+      });
+
+      // Show visual confirmation toast if enabled
+      if (settings.showToast && tab?.id) {
+        showSuccessToast(tab.id, isDataUrlMode, response.width, response.height, response.size);
+      }
+    } catch (scriptErr) {
+      const msg = scriptErr?.message || '';
+      if (msg.includes('cannot be scripted') || msg.includes('Cannot access contents')) {
+        notifyRestrictedPage(tab?.id);
+      } else {
+        console.warn('In-tab clipboard write notice:', scriptErr);
+        showErrorToast(tab?.id, 'Clipboard write failed');
       }
     }
-
-    // Show visual confirmation toast if enabled and tab is scriptable
-    if (settings.showToast && tab?.id) {
-      showSuccessToast(tab.id, isDataUrlMode, response.width, response.height, response.size);
-    }
   } catch (error) {
-    console.error('Copy as WebP error:', error);
-    showErrorToast(tab?.id, error.message || 'Error copying image');
+    const msg = error?.message || '';
+    if (msg.includes('cannot be scripted') || msg.includes('Cannot access contents')) {
+      notifyRestrictedPage(tab?.id);
+    } else {
+      console.warn('Copy as WebP notice:', error);
+      showErrorToast(tab?.id, msg || 'Error copying image');
+    }
   } finally {
     scheduleOffscreenClose();
   }
