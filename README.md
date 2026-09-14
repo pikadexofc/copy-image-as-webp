@@ -24,14 +24,11 @@ irm https://raw.githubusercontent.com/pikadexofc/copy-image-as-webp/main/install
 
 ## 🎯 How It Works (In 0.5 Seconds)
 
-```
-[Any Image on the Web] ──▶ Right-Click ➔ "Copy Image as WebP" ──▶ [Paste into Figma / Photoshop / WP]
-                                                                        (Zero Downloads. Zero Clutter.)
-```
+![How It Works - 3 Easy Steps](assets/how-it-works.png)
 
-1. Find any picture on any website.
-2. Right-click ➔ **"Copy Image as WebP"**.
-3. Press **Ctrl + V** anywhere (Figma, Photoshop, Discord, WordPress, Slack).
+1. **Spot Any Image** on any website or stock library.
+2. **Right-Click ➔ "Copy Image as WebP"** (transcodes in memory with zero disk writes).
+3. **Press Ctrl + V Anywhere** (Figma, Photoshop, WordPress, Discord, Slack, Notion).
 
 ---
 
