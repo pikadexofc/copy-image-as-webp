@@ -1,6 +1,6 @@
 # Copy Image as WebP ⚡📋
 
-Copy Image as WebP is a high-performance browser extension designed to transcode and copy any web image directly to your system clipboard in WebP format with zero local downloads.
+Copy Image as WebP is a high-performance browser extension designed to transcode web images locally to WebP and attach multi-representation clipboard data with zero disk downloads.
 
 <div align="center">
   <img src="assets/brand/logo.png" alt="PixelPie Media Logo" width="300" />
@@ -16,11 +16,11 @@ Copy Image as WebP is a high-performance browser extension designed to transcode
 
 ## 🚀 Key Features
 
-* **Direct Clipboard Write**: Encodes in-memory WebP and writes multi-MIME payloads (`image/png` fallback, `text/html`, and `web image/webp`) directly into the OS clipboard.
-* **Zero Disk Footprint**: Eliminates downloading temporary PNG/JPEG files to your disk.
-* **Universal Paste Compatibility**: Pastes seamlessly into Figma, Photoshop, WordPress, Slack, Discord, and Notion.
+* **WebP Output**: The image is transcoded locally to WebP in memory with zero disk downloads.
+* **Direct Clipboard Write**: Transcodes images locally and attaches multi-representation payloads (`web image/webp`, `text/html`, and `image/png`) directly to the clipboard.
+* **Broad Clipboard Compatibility**: The clipboard includes compatibility representations (`image/png` and `text/html`) for applications that do not consume WebP directly. Desktop applications may consume PNG or another compatible representation instead of the WebP representation.
 * **Base64 Data URL Mode**: Right-click to copy direct `data:image/webp;base64,...` URI strings for fast inline embedding.
-* **Compression Quality Slider**: Integrated dark-mode popup lets you calibrate compression from **50% to 100%** (default 92%).
+* **Compression Quality Slider**: Integrated dark-mode popup lets you calibrate compression from **50% to Maximum Quality 100%** (default 92%).
 * **100% Private & Local**: Zero telemetry, zero analytics, zero external network requests. All transcoding happens in an offscreen HTML5 canvas.
 
 ---
