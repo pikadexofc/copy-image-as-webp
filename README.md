@@ -56,23 +56,26 @@ The extension transcodes the image into optimized WebP format in memory and slap
 
 ---
 
-## 📦 10-Second Quick Setup Guide
+## 📦 Frictionless 1-Click Setup Guide
 
-You don't need a PhD in computer science. Works on **Chrome**, **Microsoft Edge**, **Brave**, **Opera**, and **Vivaldi**.
+Works seamlessly on **Chrome**, **Microsoft Edge**, **Brave**, **Opera**, and **Vivaldi**.
 
-### Step 1: Download the Extension
-* Click the green **Code** button at the top of this repository and click **[Download ZIP](https://github.com/pikadexofc/copy-image-as-webp/archive/refs/heads/main.zip)** (or clone the repo).
-* Extract the `.zip` file anywhere on your computer.
+### 🚀 Windows Users (Fastest — 5 Seconds):
+1. **[Download ZIP](https://github.com/pikadexofc/copy-image-as-webp/releases/download/v1.0.1/copy-image-as-webp-v1.0.1.zip)** and extract it.
+2. Double-click **`install.bat`**.
+   * It safely copies the extension to your local storage.
+   * It **automatically copies the folder path to your clipboard**.
+   * It opens your browser's extensions page.
+3. In your browser:
+   * Turn **ON** "Developer mode" (toggle in top-right).
+   * Click **"Load unpacked"** (button in top-left).
+   * Press <kbd>Ctrl</kbd> + <kbd>V</kbd> and hit <kbd>Enter</kbd>!
 
-### Step 2: Load into Browser
-1. Open your browser and navigate to the extensions page:
-   * **Chrome / Brave**: `chrome://extensions`
-   * **Microsoft Edge**: `edge://extensions`
-2. Toggle on **Developer mode** (top-right corner).
-3. Click the **Load unpacked** button (top-left corner).
+### 🍎 Mac / Linux Users:
+1. **[Download ZIP](https://github.com/pikadexofc/copy-image-as-webp/releases/download/v1.0.1/copy-image-as-webp-v1.0.1.zip)** and extract it.
+2. Open `chrome://extensions` or `edge://extensions`.
+3. Enable **Developer mode** and click **Load unpacked**.
 4. Select the extracted `copy-image-as-webp` folder.
-
-**Boom! You're ready.** Right-click any image on the web and enjoy the magic.
 
 ---
 
