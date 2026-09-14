@@ -7,50 +7,86 @@
 </head>
 <body>
   <div class="popup-container">
+    <!-- Header -->
     <header class="header">
-      <div class="logo-group">
-        <div class="logo-icon">⚡</div>
-        <div class="header-titles">
-          <h1 class="title">Copy as WebP</h1>
-          <span class="badge">Active</span>
+      <div class="brand-group">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+          </svg>
         </div>
+        <div class="header-text">
+          <h1 class="title">Copy Image as WebP</h1>
+          <span class="subbrand">by PixelPie Media</span>
+        </div>
+      </div>
+      <div class="status-badge" title="Extension service worker is running">
+        <span class="status-dot"></span>
+        <span class="status-text">Active</span>
       </div>
     </header>
 
     <main class="content">
-      <section class="section">
-        <div class="section-header">
-          <label for="quality-range" class="section-title">WebP Quality</label>
+      <!-- Primary Card -->
+      <section class="primary-card">
+        <div class="primary-status">
+          <div class="check-icon">
+            <svg viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <div class="primary-info">
+            <h2 class="primary-title">Ready to copy</h2>
+            <p class="primary-subtitle">Right-click any image to copy it as WebP</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Settings Card -->
+      <section class="settings-card">
+        <div class="settings-header">
+          <label for="quality-range" class="settings-label">WebP Quality</label>
           <span id="quality-val" class="quality-display">92%</span>
         </div>
-        <input type="range" id="quality-range" min="50" max="100" value="92" step="1" class="slider">
-        <div class="presets">
-          <button type="button" class="preset-btn" data-quality="75">Compact (75%)</button>
-          <button type="button" class="preset-btn active" data-quality="92">Balanced (92%)</button>
-          <button type="button" class="preset-btn" data-quality="100">Maximum Quality (100%)</button>
+        
+        <div class="slider-wrapper">
+          <input type="range" id="quality-range" min="50" max="100" value="92" step="1" class="slider" aria-label="WebP Quality">
         </div>
-      </section>
 
-      <section class="section">
-        <label class="toggle-row">
-          <span class="toggle-label">Show copy toast notifications</span>
-          <input type="checkbox" id="toggle-toast" checked class="toggle-input">
-          <span class="toggle-slider"></span>
-        </label>
-      </section>
+        <div class="presets">
+          <button type="button" class="preset-btn" data-quality="75">75% Compact</button>
+          <button type="button" class="preset-btn active" data-quality="92">92% Balanced</button>
+          <button type="button" class="preset-btn" data-quality="100">100% Maximum</button>
+        </div>
 
-      <section class="info-card">
-        <h3 class="info-title">How to use</h3>
-        <p class="info-desc">Right-click any image on any webpage:</p>
-        <ul class="feature-list">
-          <li><strong>Copy Image as WebP</strong>: Copies optimized WebP with multi-app clipboard support.</li>
-          <li><strong>Copy Image as WebP Data URL</strong>: Copies base64 string directly for coding & design.</li>
-        </ul>
+        <!-- Advanced Settings Collapsible -->
+        <details class="advanced-section">
+          <summary class="advanced-summary">
+            <span>Advanced settings</span>
+            <svg class="chevron-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </summary>
+          <div class="advanced-content">
+            <label class="toggle-row">
+              <span class="toggle-label">Show copy confirmation toast</span>
+              <input type="checkbox" id="toggle-toast" checked class="toggle-input">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </details>
       </section>
     </main>
 
+    <!-- Footer -->
     <footer class="footer">
-      <span class="status-indicator">Ready to copy</span>
+      <div class="footer-left">
+        <span class="footer-badge">Local processing</span>
+        <span class="version-tag">v1.0.2</span>
+      </div>
+      <div class="footer-right">
+        <span class="brand-text">PixelPie Media</span>
+      </div>
     </footer>
   </div>
 

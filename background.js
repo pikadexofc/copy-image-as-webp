@@ -96,7 +96,7 @@ function notifyRestrictedPage(tabId) {
 function notifySuccessBadge(tabId, text = '✓') {
   try {
     chrome.action.setBadgeText({ text, tabId });
-    chrome.action.setBadgeBackgroundColor({ color: '#10b981', tabId });
+    chrome.action.setBadgeBackgroundColor({ color: '#7c3aed', tabId });
     setTimeout(() => {
       try {
         chrome.action.setBadgeText({ text: '', tabId });
@@ -291,15 +291,16 @@ function showSuccessToast(tabId, isDataUrl, width, height, size) {
         top: '20px',
         right: '20px',
         zIndex: '2147483647',
-        padding: '12px 18px',
-        backgroundColor: 'rgba(15, 23, 42, 0.94)',
-        color: '#ffffff',
+        padding: '11px 16px',
+        backgroundColor: 'rgba(12, 13, 18, 0.95)',
+        color: '#f8fafc',
         fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-        fontSize: '13px',
-        fontWeight: '500',
+        fontSize: '12.5px',
+        fontWeight: '600',
         lineHeight: '1.4',
-        borderRadius: '10px',
-        boxShadow: '0 8px 30px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1)',
+        borderRadius: '9px',
+        border: '1px solid rgba(139, 92, 246, 0.35)',
+        boxShadow: '0 12px 36px rgba(0,0,0,0.5), 0 0 16px rgba(139, 92, 246, 0.16)',
         backdropFilter: 'blur(8px)',
         pointerEvents: 'none',
         opacity: '0',
