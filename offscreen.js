@@ -54,21 +54,27 @@ async function handleConvertImage(data) {
   }
 
   // 4. Encode as WebP and PNG Data URLs
-  const webpDataUrl = canvas.toDataURL('image/webp', quality);
-  const pngDataUrl = canvas.toDataURL('image/png');
+  try {
+    const webpDataUrl = canvas.toDataURL('image/webp', quality);
+    const pngDataUrl = canvas.toDataURL('image/png');
 
-  // Calculate approximate binary size in bytes from base64
-  const base64Data = webpDataUrl.split(',')[1] || '';
-  const size = Math.round((base64Data.length * 3) / 4);
+    // Calculate approximate binary size in bytes from base64
+    const base64Data = webpDataUrl.split(',')[1] || '';
+    const size = Math.round((base64Data.length * 3) / 4);
 
-  return {
-    success: true,
-    webpDataUrl,
-    pngDataUrl,
-    size,
-    width,
-    height
-  };
+    return {
+      success: true,
+      webpDataUrl,
+      pngDataUrl,
+      size,
+      width,
+      height
+    };
+  } finally {
+    // Immediately release backing store memory and GPU textures
+    canvas.width = 0;
+    canvas.height = 0;
+  }
 }
 
 function loadImageElement(blob) {

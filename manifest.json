@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Copy Image as WebP",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Right-click any image and copy it directly to your clipboard in WebP format without downloading.",
   "permissions": [
     "contextMenus",

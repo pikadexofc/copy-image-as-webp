@@ -29,8 +29,14 @@ chrome.runtime.onInstalled.addListener(async () => {
   });
 });
 
+let offscreenCloseTimer = null;
+
 // Ensure offscreen document is open for cross-origin image canvas operations
 async function setupOffscreenDocument() {
+  if (offscreenCloseTimer) {
+    clearTimeout(offscreenCloseTimer);
+    offscreenCloseTimer = null;
+  }
   if (await chrome.offscreen.hasDocument()) {
     return;
   }
@@ -39,6 +45,22 @@ async function setupOffscreenDocument() {
     reasons: ['CLIPBOARD'],
     justification: 'Convert image to WebP format via Offscreen Canvas'
   });
+}
+
+// Automatically close offscreen document after an idle period to reclaim memory
+function scheduleOffscreenClose(delayMs = 15000) {
+  if (offscreenCloseTimer) {
+    clearTimeout(offscreenCloseTimer);
+  }
+  offscreenCloseTimer = setTimeout(async () => {
+    try {
+      if (await chrome.offscreen.hasDocument()) {
+        await chrome.offscreen.closeDocument();
+      }
+    } catch {
+      // Ignored if document already closed or in transition
+    }
+  }, delayMs);
 }
 
 // Handle context menu clicks
@@ -206,8 +228,23 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   } catch (error) {
     console.error('Copy as WebP error:', error);
     showErrorToast(tab?.id, error.message || 'Error copying image');
+  } finally {
+    scheduleOffscreenClose();
   }
 });
+
+// Reclaim offscreen resources if background service worker is suspended
+if (chrome.runtime?.onSuspend) {
+  chrome.runtime.onSuspend.addListener(async () => {
+    try {
+      if (await chrome.offscreen.hasDocument()) {
+        await chrome.offscreen.closeDocument();
+      }
+    } catch {
+      // Ignored
+    }
+  });
+}
 
 function showErrorToast(tabId, message) {
   if (!tabId) return;

@@ -53,7 +53,7 @@ irm https://raw.githubusercontent.com/pikadexofc/copy-image-as-webp/main/install
 **Prerequisites:** Chromium-based browser (Chrome, Edge, Brave, Opera, Arc).
 
 1. **Download Release**:
-   Download the latest [`copy-image-as-webp-v1.0.1.zip`](https://github.com/pikadexofc/copy-image-as-webp/releases/download/v1.0.1/copy-image-as-webp-v1.0.1.zip) and extract it.
+   Download the latest [`copy-image-as-webp-v1.0.2.zip`](https://github.com/pikadexofc/copy-image-as-webp/releases/download/v1.0.2/copy-image-as-webp-v1.0.2.zip) and extract it.
 
 2. **Load Unpacked**:
    - Navigate to `chrome://extensions` (or `edge://extensions`).

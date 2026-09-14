@@ -8,7 +8,7 @@ Write-Host "======================================================" -ForegroundC
 Write-Host ""
 
 $targetDir = "$env:LOCALAPPDATA\copy-image-as-webp"
-$zipUrl = "https://github.com/pikadexofc/copy-image-as-webp/releases/download/v1.0.1/copy-image-as-webp-v1.0.1.zip"
+$zipUrl = "https://github.com/pikadexofc/copy-image-as-webp/releases/download/v1.0.2/copy-image-as-webp-v1.0.2.zip"
 $tempZip = "$env:TEMP\copy-image-as-webp.zip"
 
 Write-Host "[1/3] Downloading extension from GitHub..." -ForegroundColor Yellow
