@@ -73,13 +73,11 @@ It is the year 2026. Humanity is deploying AI models to Mars, but when a web des
 
 ---
 
-## ☕ Support the Project
+## ☕ Support
 
-If this tiny extension saved you 10 minutes of brain-dead file shuffling today, consider buying me a cup of cha:
+If you find this tool useful, you can support future development:
 
-👉 **[Support me on Support Kori (supportkori.com/mdzobaedislamshanto)](https://www.supportkori.com/mdzobaedislamshanto)**
-
-Your support keeps open-source micro-tools free and ad-free for everyone!
+- **[Support on Support Kori](https://www.supportkori.com/mdzobaedislamshanto)**
 
 ---
 
