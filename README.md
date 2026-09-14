@@ -4,7 +4,7 @@
   <p><strong>A precision browser utility for designers and developers that converts web images locally to WebP and places them on the clipboard without requiring a manual download.</strong></p>
 
   <p>
-    <img src="https://img.shields.io/badge/Release-v1.0.2-8b5cf6?style=flat-square" alt="Version 1.0.2" />
+    <img src="https://img.shields.io/badge/Release-v1.0.3-8b5cf6?style=flat-square" alt="Version 1.0.3" />
     <img src="https://img.shields.io/github/license/pikadexofc/copy-image-as-webp?style=flat-square&color=7c3aed" alt="License MIT" />
     <img src="https://img.shields.io/badge/Privacy-100%25%20Local-10b981?style=flat-square" alt="100% Local Privacy" />
     <img src="https://img.shields.io/badge/Manifest-V3-6366f1?style=flat-square" alt="Manifest V3" />
