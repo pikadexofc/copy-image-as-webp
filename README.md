@@ -1,4 +1,5 @@
 <div align="center">
+  <img src="assets/brand/product_logo.png" alt="Copy Image as WebP Logo" width="96" />
   <p><strong>PixelPie Media</strong></p>
   <h1>Copy Image as WebP</h1>
   <p><strong>A precision browser utility for designers and developers that converts web images locally to WebP and places them on the clipboard without requiring a manual download.</strong></p>
