@@ -21,12 +21,16 @@ if (Test-Path $tempExtract) {
 }
 Expand-Archive -Path $tempZip -DestinationPath $tempExtract -Force
 
-if (-not (Test-Path $targetDir)) { 
-    New-Item -ItemType Directory -Path $targetDir -Force | Out-Null 
+if (Test-Path $targetDir) { 
+    Remove-Item $targetDir -Recurse -Force -ErrorAction SilentlyContinue 
 }
+New-Item -ItemType Directory -Path $targetDir -Force | Out-Null
 
 $innerDir = (Get-ChildItem -Path $tempExtract -Directory | Select-Object -First 1).FullName
 Copy-Item -Path "$innerDir\*" -Destination $targetDir -Recurse -Force
+
+# Remove illegal files that Chrome strictly blocks (desktop.ini, Thumbs.db, .git)
+Get-ChildItem -Path $targetDir -Recurse -Force -Include "desktop.ini", "Thumbs.db", ".git*", "*.tmp" -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
 
 Remove-Item $tempZip -Force -ErrorAction SilentlyContinue
 Remove-Item $tempExtract -Recurse -Force -ErrorAction SilentlyContinue
