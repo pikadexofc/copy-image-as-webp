@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="purpleGD" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#c084fc"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+  <!-- Source Image Frame -->
+  <rect x="72" y="72" width="248" height="248" rx="40" fill="none" stroke="#f8fafc" stroke-width="44" stroke-linejoin="round"/>
+  <circle cx="156" cy="156" r="32" fill="#f8fafc"/>
+
+  <!-- Active Transfer Frame -->
+  <rect x="192" y="192" width="248" height="248" rx="48" fill="#0a0b12" stroke="url(#purpleGD)" stroke-width="44" stroke-linejoin="round"/>
+  <!-- Directional Arrow -->
+  <path d="M250 316 L376 316 M330 270 L378 316 L330 362" fill="none" stroke="url(#purpleGD)" stroke-width="42" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

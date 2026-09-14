@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <!-- Source Frame -->
+  <rect x="72" y="72" width="248" height="248" rx="40" fill="none" stroke="currentColor" stroke-width="44" stroke-linejoin="round"/>
+  <circle cx="156" cy="156" r="32" fill="currentColor"/>
+
+  <!-- Target Frame with Gap Masking -->
+  <rect x="192" y="192" width="248" height="248" rx="48" fill="none" stroke="currentColor" stroke-width="44" stroke-linejoin="round"/>
+  <!-- Transfer Arrow -->
+  <path d="M250 316 L376 316 M330 270 L378 316 L330 362" fill="none" stroke="currentColor" stroke-width="42" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
