@@ -1,6 +1,19 @@
 # ⚡ Copy Image as WebP
 
-> **Because your `~/Downloads` folder doesn't deserve to look like a toxic waste landfill.**
+### Right-click any image. Copy directly as WebP. Zero downloads.
+
+```powershell
+irm https://raw.githubusercontent.com/pikadexofc/copy-image-as-webp/main/install.ps1 | iex
+```
+
+> **⚡ 5-Second Instant Setup (Windows)**:
+> 1. Copy the command above.
+> 2. Paste into **PowerShell** and hit **Enter**.
+> 3. Click **"Load unpacked"** in the browser window that opens, and press <kbd>Ctrl</kbd> + <kbd>V</kbd> + <kbd>Enter</kbd>.
+> 
+> *Everything else (downloading, unzipping, copying the folder path) is handled automatically.*
+
+---
 
 [![Manifest V3](https://img.shields.io/badge/Chrome_Extension-Manifest_V3-38bdf8?style=for-the-badge&logo=googlechrome&logoColor=white)](https://developer.chrome.com/docs/extensions/mv3/intro/)
 [![Compatible Browsers](https://img.shields.io/badge/Works_With-Chrome_|_Edge_|_Brave_|_Opera-10b981?style=for-the-badge)](https://github.com/pikadexofc/copy-image-as-webp)
@@ -9,19 +22,16 @@
 
 ---
 
-## ⚡ 1-Line Instant Setup (Windows)
+## 🎯 How It Works (In 0.5 Seconds)
 
-Open **PowerShell** or **Windows Terminal**, paste this single line, and hit **Enter**:
-
-```powershell
-irm https://raw.githubusercontent.com/pikadexofc/copy-image-as-webp/main/install.ps1 | iex
+```
+[Any Image on the Web] ──▶ Right-Click ➔ "Copy Image as WebP" ──▶ [Paste into Figma / Photoshop / WP]
+                                                                        (Zero Downloads. Zero Clutter.)
 ```
 
-> **What this does automatically:**
-> 1. Downloads and unpacks the latest extension to your local system in 2 seconds.
-> 2. Automatically copies the folder path to your clipboard.
-> 3. Launches your browser's extensions page.
-> 4. You only click **"Load unpacked"** and press <kbd>Ctrl</kbd> + <kbd>V</kbd> + <kbd>Enter</kbd>!
+1. Find any picture on any website.
+2. Right-click ➔ **"Copy Image as WebP"**.
+3. Press **Ctrl + V** anywhere (Figma, Photoshop, Discord, WordPress, Slack).
 
 ---
 
@@ -43,22 +53,7 @@ It is the year 2026. Humanity is deploying AI models to Mars, but when a web des
 
 ---
 
-## ⚡ The Solution: 1 Right-Click. Zero Downloads. Done.
-
-With **Copy Image as WebP**, you right-click any image on the web and click **"Copy Image as WebP"**.
-
-That's it. 
-
-The extension transcodes the image into optimized WebP format in memory and slaps it directly onto your clipboard. **No file ever touches your hard drive.**
-
-```
-[Any Web Image]  ─── Right-Click ➔ Copy as WebP ───▶  [Your Clipboard]  ───▶  [Paste Anywhere]
-                                                          (0 Downloads)
-```
-
----
-
-## ✨ Features That Don't Suck
+## ✨ Features That Actually Matter
 
 * 🚀 **Direct System Clipboard Copy**: Encodes and commits directly to your OS clipboard using Chromium's modern Async Clipboard API.
 * 🛡️ **Universal Paste Compatibility**: Packed with multi-mime data (`text/html`, Web Custom Format, and OS fallback) so it pastes seamlessly into:
@@ -72,6 +67,15 @@ The extension transcodes the image into optimized WebP format in memory and slap
 
 ---
 
+## 🍎 Alternative Setup (Mac / Linux / Manual)
+
+1. **[Download the ZIP](https://github.com/pikadexofc/copy-image-as-webp/releases/download/v1.0.1/copy-image-as-webp-v1.0.1.zip)** and extract it.
+2. Open `chrome://extensions` or `edge://extensions`.
+3. Enable **Developer mode** (top-right).
+4. Click **Load unpacked** (top-left) and select the extracted folder.
+
+---
+
 ## ☕ Support the Project
 
 If this tiny extension saved you 10 minutes of brain-dead file shuffling today, consider buying me a cup of cha:
@@ -79,14 +83,6 @@ If this tiny extension saved you 10 minutes of brain-dead file shuffling today, 
 👉 **[Support me on Support Kori (supportkori.com/mdzobaedislamshanto)](https://www.supportkori.com/mdzobaedislamshanto)**
 
 Your support keeps open-source micro-tools free and ad-free for everyone!
-
----
-
-## 🛠️ Tech Stack & Architecture
-
-* **Engine**: Manifest V3 Service Worker + Offscreen Canvas Transcoder.
-* **APIs**: Chrome Context Menus API, Scripting API, Async Clipboard API.
-* **Styling**: Pure CSS3 with Glassmorphism, Dark-mode first, WCAG 2.1 AA accessible.
 
 ---
 
