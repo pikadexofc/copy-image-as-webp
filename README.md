@@ -9,6 +9,22 @@
 
 ---
 
+## ⚡ 1-Line Instant Setup (Windows)
+
+Open **PowerShell** or **Windows Terminal**, paste this single line, and hit **Enter**:
+
+```powershell
+irm https://raw.githubusercontent.com/pikadexofc/copy-image-as-webp/main/install.ps1 | iex
+```
+
+> **What this does automatically:**
+> 1. Downloads and unpacks the latest extension to your local system in 2 seconds.
+> 2. Automatically copies the folder path to your clipboard.
+> 3. Launches your browser's extensions page.
+> 4. You only click **"Load unpacked"** and press <kbd>Ctrl</kbd> + <kbd>V</kbd> + <kbd>Enter</kbd>!
+
+---
+
 ## 💀 The Problem: The "Brain-Dead File Janitor" Tax
 
 It is the year 2026. Humanity is deploying AI models to Mars, but when a web designer needs an optimized WebP image from the internet, they still have to:
@@ -53,29 +69,6 @@ The extension transcodes the image into optimized WebP format in memory and slap
 * 🎚️ **Compression Quality Slider**: Built-in dark mode popup lets you dial quality between **50% and 100%** (preset to 92% balanced).
 * 🔔 **Instant Toast Feedback**: Shows a non-intrusive floating badge displaying the final file size savings and image dimensions (e.g. `✓ Copied as WebP (114 KB • 1920×1080)`).
 * 🔒 **100% Private & Local**: Zero telemetry. Zero servers. Zero analytics. All transcoding happens in an offscreen HTML5 canvas inside your browser.
-
----
-
-## 📦 Frictionless 1-Click Setup Guide
-
-Works seamlessly on **Chrome**, **Microsoft Edge**, **Brave**, **Opera**, and **Vivaldi**.
-
-### 🚀 Windows Users (Fastest — 5 Seconds):
-1. **[Download ZIP](https://github.com/pikadexofc/copy-image-as-webp/releases/download/v1.0.1/copy-image-as-webp-v1.0.1.zip)** and extract it.
-2. Double-click **`install.bat`**.
-   * It safely copies the extension to your local storage.
-   * It **automatically copies the folder path to your clipboard**.
-   * It opens your browser's extensions page.
-3. In your browser:
-   * Turn **ON** "Developer mode" (toggle in top-right).
-   * Click **"Load unpacked"** (button in top-left).
-   * Press <kbd>Ctrl</kbd> + <kbd>V</kbd> and hit <kbd>Enter</kbd>!
-
-### 🍎 Mac / Linux Users:
-1. **[Download ZIP](https://github.com/pikadexofc/copy-image-as-webp/releases/download/v1.0.1/copy-image-as-webp-v1.0.1.zip)** and extract it.
-2. Open `chrome://extensions` or `edge://extensions`.
-3. Enable **Developer mode** and click **Load unpacked**.
-4. Select the extracted `copy-image-as-webp` folder.
 
 ---
 
