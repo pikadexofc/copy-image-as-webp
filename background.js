@@ -206,7 +206,9 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
           } else {
             const webpBlob = b64toBlob(webpDataUrl);
             const pngBlob = b64toBlob(pngDataUrl);
-            const htmlBlob = new Blob([`<img src="${webpDataUrl}" width="${width}" height="${height}">`], {
+            // Use pngDataUrl for text/html so paste handlers preserve alpha transparency
+            // rather than flattening WebP data URLs onto an opaque black backdrop
+            const htmlBlob = new Blob([`<img src="${pngDataUrl}" width="${width}" height="${height}">`], {
               type: 'text/html'
             });
 

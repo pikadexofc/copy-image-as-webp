@@ -71,6 +71,8 @@ async function handleConvertImage(data) {
   canvas.height = height;
 
   const ctx = canvas.getContext('2d', { alpha: true });
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.imageSmoothingEnabled = true;
   ctx.clearRect(0, 0, width, height);
   ctx.drawImage(img, 0, 0, width, height);
 
@@ -83,6 +85,10 @@ async function handleConvertImage(data) {
   try {
     const webpDataUrl = canvas.toDataURL('image/webp', quality);
     const pngDataUrl = canvas.toDataURL('image/png');
+
+    if (!webpDataUrl || webpDataUrl === 'data:,' || !pngDataUrl || pngDataUrl === 'data:,') {
+      throw new Error('Canvas encoding failed or image dimensions exceed memory limits');
+    }
 
     // Calculate approximate binary size in bytes from base64
     const base64Data = webpDataUrl.split(',')[1] || '';
