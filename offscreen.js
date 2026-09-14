@@ -16,7 +16,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 async function handleConvertImage(data) {
-  const { srcUrl, quality = 0.92 } = data;
+  const { srcUrl, quality = 0.92, copyToClipboard = true, isDataUrl = false } = data;
 
   // 1. Fetch image source
   let blob;
@@ -62,13 +62,42 @@ async function handleConvertImage(data) {
     const base64Data = webpDataUrl.split(',')[1] || '';
     const size = Math.round((base64Data.length * 3) / 4);
 
+    let clipboardWritten = false;
+    if (copyToClipboard) {
+      try {
+        if (isDataUrl) {
+          await navigator.clipboard.writeText(webpDataUrl);
+        } else {
+          const webpBlob = dataURItoBlob(webpDataUrl);
+          const pngBlob = dataURItoBlob(pngDataUrl);
+          const htmlBlob = new Blob([`<img src="${webpDataUrl}" width="${width}" height="${height}">`], {
+            type: 'text/html'
+          });
+          const textBlob = new Blob([webpDataUrl], { type: 'text/plain' });
+
+          const clipboardData = {
+            'image/png': pngBlob,
+            'text/html': htmlBlob,
+            'text/plain': textBlob,
+            'web image/webp': webpBlob
+          };
+
+          await navigator.clipboard.write([new ClipboardItem(clipboardData)]);
+        }
+        clipboardWritten = true;
+      } catch (clipErr) {
+        console.warn('Offscreen direct clipboard write failed, will attempt in-tab fallback:', clipErr);
+      }
+    }
+
     return {
       success: true,
       webpDataUrl,
       pngDataUrl,
       size,
       width,
-      height
+      height,
+      clipboardWritten
     };
   } finally {
     // Immediately release backing store memory and GPU textures

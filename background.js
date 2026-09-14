@@ -108,12 +108,16 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       }
     }
 
-    // Convert image to WebP & PNG base64 in offscreen document (handles CORS cleanly)
+    const isDataUrlMode = info.menuItemId === CONTEXT_MENU_IDS.COPY_DATA_URL;
+
+    // Convert image to WebP & PNG base64 in offscreen document and write directly to clipboard
     const response = await chrome.runtime.sendMessage({
       target: 'offscreen',
       action: 'convert-image',
       srcUrl: payloadUrl,
-      quality: settings.quality
+      quality: settings.quality,
+      copyToClipboard: true,
+      isDataUrl: isDataUrlMode
     });
 
     if (!response?.success) {
@@ -121,16 +125,13 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       return;
     }
 
-    const isDataUrlMode = info.menuItemId === CONTEXT_MENU_IDS.COPY_DATA_URL;
-
-    // Write to clipboard inside the active tab context where the document has active user focus
-    if (tab?.id) {
-      await chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        func: async (webpDataUrl, pngDataUrl, isDataUrl, width, height, size, showToast) => {
-          try {
+    // If offscreen couldn't write (unsupported environment fallback), write inside active tab
+    if (!response.clipboardWritten && tab?.id) {
+      try {
+        await chrome.scripting.executeScript({
+          target: { tabId: tab.id },
+          func: async (webpDataUrl, pngDataUrl, isDataUrl, width, height) => {
             window.focus();
-
             function b64toBlob(dataURI) {
               const parts = dataURI.split(',');
               const byteString = atob(parts[1]);
@@ -162,68 +163,23 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 
               await navigator.clipboard.write([new ClipboardItem(clipboardData)]);
             }
+          },
+          args: [
+            response.webpDataUrl,
+            response.pngDataUrl,
+            isDataUrlMode,
+            response.width,
+            response.height
+          ]
+        });
+      } catch (fallbackErr) {
+        console.warn('In-tab clipboard write fallback failed:', fallbackErr);
+      }
+    }
 
-            if (showToast) {
-              const TOAST_ID = '__copy_image_as_webp_toast__';
-              let existing = document.getElementById(TOAST_ID);
-              if (existing) existing.remove();
-
-              const sizeKb = (size / 1024).toFixed(1);
-              const text = isDataUrl
-                ? '✓ WebP Data URL copied!'
-                : `✓ Copied as WebP (${sizeKb} KB • ${width}×${height})`;
-
-              const toast = document.createElement('div');
-              toast.id = TOAST_ID;
-              toast.textContent = text;
-              Object.assign(toast.style, {
-                position: 'fixed',
-                top: '20px',
-                right: '20px',
-                zIndex: '2147483647',
-                padding: '12px 18px',
-                backgroundColor: 'rgba(15, 23, 42, 0.94)',
-                color: '#ffffff',
-                fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-                fontSize: '13px',
-                fontWeight: '500',
-                lineHeight: '1.4',
-                borderRadius: '10px',
-                boxShadow: '0 8px 30px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1)',
-                backdropFilter: 'blur(8px)',
-                pointerEvents: 'none',
-                opacity: '0',
-                transform: 'translateY(-8px) scale(0.96)',
-                transition: 'opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
-              });
-
-              document.body.appendChild(toast);
-              requestAnimationFrame(() => {
-                toast.style.opacity = '1';
-                toast.style.transform = 'translateY(0) scale(1)';
-              });
-
-              setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transform = 'translateY(-6px) scale(0.96)';
-                setTimeout(() => toast.remove(), 250);
-              }, 2400);
-            }
-          } catch (writeErr) {
-            console.error('In-tab clipboard write error:', writeErr);
-            throw writeErr;
-          }
-        },
-        args: [
-          response.webpDataUrl,
-          response.pngDataUrl,
-          isDataUrlMode,
-          response.width,
-          response.height,
-          response.size,
-          settings.showToast
-        ]
-      });
+    // Show visual confirmation toast if enabled and tab is scriptable
+    if (settings.showToast && tab?.id) {
+      showSuccessToast(tab.id, isDataUrlMode, response.width, response.height, response.size);
     }
   } catch (error) {
     console.error('Copy as WebP error:', error);
@@ -243,6 +199,63 @@ if (chrome.runtime?.onSuspend) {
     } catch {
       // Ignored
     }
+  });
+}
+
+function showSuccessToast(tabId, isDataUrl, width, height, size) {
+  if (!tabId) return;
+  chrome.scripting.executeScript({
+    target: { tabId },
+    func: (isDataUrl, width, height, size) => {
+      const TOAST_ID = '__copy_image_as_webp_toast__';
+      let existing = document.getElementById(TOAST_ID);
+      if (existing) existing.remove();
+
+      const sizeKb = (size / 1024).toFixed(1);
+      const text = isDataUrl
+        ? '✓ WebP Data URL copied!'
+        : `✓ Copied as WebP (${sizeKb} KB • ${width}×${height})`;
+
+      const toast = document.createElement('div');
+      toast.id = TOAST_ID;
+      toast.textContent = text;
+      Object.assign(toast.style, {
+        position: 'fixed',
+        top: '20px',
+        right: '20px',
+        zIndex: '2147483647',
+        padding: '12px 18px',
+        backgroundColor: 'rgba(15, 23, 42, 0.94)',
+        color: '#ffffff',
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        fontSize: '13px',
+        fontWeight: '500',
+        lineHeight: '1.4',
+        borderRadius: '10px',
+        boxShadow: '0 8px 30px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1)',
+        backdropFilter: 'blur(8px)',
+        pointerEvents: 'none',
+        opacity: '0',
+        transform: 'translateY(-8px) scale(0.96)',
+        transition: 'opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+      });
+
+      document.body.appendChild(toast);
+      requestAnimationFrame(() => {
+        toast.style.opacity = '1';
+        toast.style.transform = 'translateY(0) scale(1)';
+      });
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(-6px) scale(0.96)';
+        setTimeout(() => toast.remove(), 250);
+      }, 2400);
+    },
+    args: [isDataUrl, width, height, size]
+  }).catch(() => {
+    // Restricted tab (e.g. Chrome Web Store or chrome:// internal page)
+    // Clipboard write already succeeded in offscreen document.
   });
 }
 
